@@ -1,0 +1,33 @@
+{{ define "content" }}
+<h1>
+  Yeni Ürün Ekle
+  <a href="/admin" class="btn btn-outline-primary float-right"><i class="fa fa-arrow-left"></i> Geri Dön</a>
+</h1>
+<hr>
+<form action="/admin/add" method="post" enctype="multipart/form-data">
+  <label for="name">Ürün Adı:</label>
+  <input type="text" name="product-name" class="form-control"><br><br>
+
+  <label for="description">Açıklama:</label>
+  <textarea name="product-desc" cols="30" rows="2" class="form-control"></textarea><br><br>
+
+  <label for="price">Fiyat:</label>
+  <input type="number" name="product-price" step="0.01" class="form-control"><br><br>
+
+  <label for="category">Kategori:</label>
+  <select type="text" name="product-category" class="form-control" >
+    {{ range $index, $value := .Categories }}
+    <option value="{{ $value.ID }}">{{ $value.Title }}</option>
+    {{ end }}
+  </select><br><br>
+
+  <label for="stock">Stok:</label>
+  <input type="number" name="product-stock" step="0" class="form-control"><br><br>
+
+  
+  <label for="picture">Ürün Görseli:</label>
+  <input type="file" name="product-picture" class="form-control-file"><br><br>
+  
+  <button type="submit" class="btn btn-outline-success w-100 my-3">Kaydet</button>
+</form>
+{{ end }}

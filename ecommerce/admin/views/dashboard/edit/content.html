@@ -1,0 +1,42 @@
+{{ define "content" }}
+<h1>
+  Kayıt Düzenle
+  <a href="/admin" class="btn btn-outline-primary float-right"><i class="fa fa-arrow-left"></i> Geri Dön</a>
+</h1>
+<hr>
+<form action="/admin/update/{{ .Product.ID }}" method="post" enctype="multipart/form-data">
+  <label for="name">Ürün Adı:</label>
+  <input type="text" name="product-name" class="form-control" value="{{ .Product.Name }}"><br><br>
+
+  <label for="description">Açıklama:</label>
+  <textarea name="product-desc" cols="30" rows="2" class="form-control">{{ .Product.Description }}</textarea><br><br>
+
+  <label for="price">Fiyat:</label>
+  <input type="number" name="product-price" step="0.01" class="form-control" value="{{ .Product.Price }}"><br><br>
+  <div class="form-group">
+    <label>Kategori</label>
+    <select name="product-category" class="form-control" >
+      {{ $categoryID := .Product.CategoryID }}
+      {{ range $index,$value := .Categories }}
+      <option {{ if eq $value.ID $categoryID }} selected {{ end }} value="{{ $value.ID }}">{{ $value.Title }}</option>
+      {{ end }}
+    </select>
+  </div>
+
+  <label for="stock">Stok:</label>
+  <input type="number" name="product-stock" step="0" class="form-control" value="{{ .Product.Stock }}"><br><br>
+
+  <img width="100px" src="/{{ .Product.Picture_url }}" class="my-2" id="current-picture">
+  <label for="picture">Ürün Görseli:</label>
+  <input type="file" name="product-picture" class="form-control-file" id="file-upload"><br><br>
+  <input type="hidden" name="is_selected" id="is_selected" value="0">
+  
+  <button type="submit" class="btn btn-outline-success w-100 my-3">Güncelle</button>
+</form>
+<script>
+  document.getElementById("file-upload").addEventListener("change", function () {
+    document.getElementById("is_selected").setAttribute("value", "1")
+    document.getElementById("current-picture").style.display = "none"
+  })
+</script>
+{{ end }}
